@@ -1,0 +1,20 @@
+FROM python:3.9-slim
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier le fichier de dépendances
+COPY requirements.txt .
+
+# Installer les dépendances du frontend
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Copier le reste des fichiers
+COPY . .
+
+# Exposer le port 8001 pour le frontend
+#EXPOSE 8001
+
+# Commande pour démarrer le serveur frontend
+#CMD ["python3", "manage.py", "runserver", "0.0.0.0:8001"]

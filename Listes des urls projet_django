@@ -1,0 +1,5 @@
+http://127.0.0.1/ => page public
+http://127.0.0.1/public/add/  => ajouter une nouvelle depense
+http://127.0.0.1/api/ = > pour l'api
+http://127.0.0.1/api/expenses/ => pour les depenses
+http://127.0.0.1/api/categories/ => categories

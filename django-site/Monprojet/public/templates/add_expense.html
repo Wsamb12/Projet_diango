@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une Dépense</title>
+    <style>
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px; /* Adds spacing between the buttons */
+            margin-top: 20px; /* Adds space above the buttons */
+        }
+
+        .button-container button,
+        .button-container a button {
+            background-color: blue;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button-container button:hover,
+        .button-container a button:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ajouter une Dépense</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="button-container">
+            <button type="submit">Ajouter</button>
+            <a href="{% url 'expense_list' %}">
+                <button type="button">Retour à la page de suivi des dépenses</button>
+            </a>
+        </div>
+    </form>
+</body>
+</html>

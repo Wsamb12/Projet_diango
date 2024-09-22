@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: expense_tracker_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - expense_net
+
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"  # Mappe le port 8000 de l'hôte vers le conteneur
+    depends_on:
+      - db
+    networks:
+      - expense_net
+
+  public:
+    build: 
+      context: .
+      dockerfile: Dockerfile.front
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+       - "8000:8000"  # Mappe le port 8001 de l'hôte vers le conteneur
+    depends_on:
+      - api
+    networks:
+      - expense_net
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"  # Mappe le port 80 du conteneur à 8080 sur l'hôte
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+      - public
+    networks:
+      - expense_net
+
+networks:
+  expense_net:
+
+volumes:
+  postgres_data:

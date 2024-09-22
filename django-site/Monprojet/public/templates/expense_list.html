@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi des dépenses personnelles</title>
+    <style>
+        /* Styling for the header */
+        header {
+            background-color: #4CAF50; /* Couleur de fond verte pour l'en-tête */
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            color: white;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        /* Style pour la table des dépenses */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Style pour le bouton "Nouvelle Dépense" */
+        .new-expense-btn {
+            background-color: blue;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .new-expense-btn:hover {
+            background-color: darkblue;
+        }
+
+        /* Section pour le montant total */
+        .total-amount {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Style pour les boutons d'action */
+        .action-btn {
+            background-color: #f44336; /* Rouge pour supprimer */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .action-btn.edit {
+            background-color: #008CBA; /* Bleu pour modifier */
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section d'en-tête avec navigation -->
+    <header>
+        <h1>Suivi des dépenses personnelles</h1>
+        <!-- Suppression des liens d'authentification -->
+    </header>
+
+    <!-- Section avec la liste des dépenses -->
+    <section>
+        <h2>Liste des Dépenses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.name }}</td>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>
+                        <!-- Bouton Modifier -->
+                        <a href="{% url 'edit_expense' expense.id %}">
+                            <button class="action-btn edit">Modifier</button>
+                        </a>
+                        <!-- Bouton Supprimer -->
+                        <form method="post" action="{% url 'delete_expense' expense.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="action-btn">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Bouton pour ajouter une nouvelle dépense -->
+    <section>
+        <a href="{% url 'add_expense' %}">
+            <button class="new-expense-btn">Nouvelle Dépense</button>
+        </a>
+    </section>
+
+    <!-- Section pour afficher la somme totale des dépenses -->
+    <section>
+        <p class="total-amount">La somme totale dépensée est : {{ total_amount }} €</p>
+    </section>
+
+</body>
+</html>
