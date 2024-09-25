@@ -19,8 +19,6 @@ services:
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-    ports:
-      - "8001:8001"  # Mappe le port 8000 de l'hôte vers le conteneur
     depends_on:
       - db
     networks:
@@ -33,8 +31,6 @@ services:
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-    ports:
-       - "8000:8000"  # Mappe le port 8001 de l'hôte vers le conteneur
     depends_on:
       - api
     networks:
